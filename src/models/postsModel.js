@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import connectDB from "../config/dbConfig.js";
 
 // Conectando ao banco
@@ -12,6 +13,15 @@ export const getAllPosts = () => {
 export const createPost = (post) => {
   const db = conn.db("imersao-instabytes");
   const collection = db.collection("posts").insertOne(post);
+
+  return collection;
+};
+
+export const updatePost = (id, post) => {
+  const db = conn.db("imersao-instabytes");
+
+  const objectId = ObjectId.createFromHexString(id);
+  const collection = db.collection("posts").updateOne({_id: new ObjectId(objectId)}, {$set: post});
 
   return collection;
 };
